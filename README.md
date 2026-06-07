@@ -1,22 +1,21 @@
 # ai301contribution
 CodePath AI301 open source contribution
 
-# Contribution [#]: [Issue Title]
+# Contribution [#]: [Adapter: Cloudflare Workers AI Model Provider]
 
 **Contribution Number:** [1 / 2 / 3]  
-**Student:** [Your Name]  
-**Issue:** [GitHub issue link]  
+**Student:** [Jocelyn Zhou]  
+**Issue:** [https://github.com/orthogonalhq/nous-core/issues/322]  
 **Status:** [Phase I / Phase II / Phase III / Phase IV] [In Progress / Complete]
 
 ---
 
 ## Why I Chose This Issue
-
-[1-2 paragraphs explaining why this issue interests you, how it matches your skills/learning goals, what you hope to learn]
-
+I chose this issue because it involves TypeScript, which aligns with my experience, and the scope is well-defined — implement one new file following an existing pattern. Cloudflare Workers AI is a growing edge AI platform, making this contribution relevant to current industry trends. The issue has clear acceptance criteria and reference implementations to follow. I'm also interested in learning how AI model routing and provider interfaces are designed in a production agent framework.
 ---
 
 ## Understanding the Issue
+The Nous AI agent framework currently lacks a Cloudflare Workers AI model provider adapter. This means users cannot route tasks to Cloudflare's AI inference service through the Nous subcortex layer. The fix requires implementing the IModelProvider interface for Cloudflare Workers AI, including invoke, stream, and getConfig methods, following the same pattern as existing adapters like openai-provider.ts and anthropic-provider.ts.
 
 ### Problem Description
 
