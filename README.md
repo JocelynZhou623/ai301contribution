@@ -18,33 +18,34 @@ The Nous AI agent framework currently lacks a Cloudflare Workers AI model provid
 
 ### Problem Description
 
-[In your own words, what's broken or missing?]
+The nous-core subcortex layer is missing a Cloudflare Workers AI model provider adapter. Users cannot route tasks to Cloudflare's AI inference service through the Nous model routing system.
 
 ### Expected Behavior
 
-[What should happen?]
+Users should be able to configure Cloudflare Workers AI as a model provider in Nous and route tasks to it via the subcortex layer, just like OpenAI or Anthropic.
 
 ### Current Behavior
 
-[What actually happens?]
+No cloudflare-workers-ai-provider.ts exists in self/subcortex/providers/src/. The Cloudflare Workers AI model cannot be used within Nous.
 
 ### Affected Components
-
-[Which parts of the codebase are involved?]
+- self/subcortex/providers/src/ (new file to be created)
+- self/subcortex/providers/src/index.ts (needs export)
+- self/subcortex/providers/src/__tests__/ (new test file)
 
 ---
 
 ## Reproduction Process
 
 ### Environment Setup
-
-[Notes on setting up your local development environment - challenges you faced, how you solved them]
+Cloned nous-core repository locally. Installed dependencies with pnpm install (Node.js 22+, pnpm 10+). Navigated to self/subcortex/providers/src/ to review existing adapter structure.
 
 ### Steps to Reproduce
-
-1. [Step 1]
-2. [Step 2]
-3. [Observed result]
+1. Clone the nous-core repository
+2. Navigate to self/subcortex/providers/src/
+3. List existing provider files — confirmed openai-provider.ts, ollama-provider.ts, and anthropic-provider.ts exist
+4. Confirmed no cloudflare-workers-ai-provider.ts exists
+5. Reviewed openai-provider.ts to understand the IModelProvider interface structure
 
 ### Reproduction Evidence
 
@@ -58,30 +59,33 @@ The Nous AI agent framework currently lacks a Cloudflare Workers AI model provid
 
 ### Analysis
 
-[Your analysis of the root cause - what's causing the issue?]
+The provider is simply missing. The IModelProvider interface and pattern already exist in the codebase via openai-provider.ts and anthropic-provider.ts. A new adapter file needs to be created following the same pattern, using Cloudflare Workers AI's OpenAI-compatible /v1/chat/completions API endpoint.
 
 ### Proposed Solution
 
-[High-level description of your fix approach]
+Create a new cloudflare-workers-ai-provider.ts file implementing the IModelProvider interface, using Cloudflare Workers AI's API endpoint and Bearer token authentication, following the exact same pattern as openai-provider.ts.
 
 ### Implementation Plan
 
 Using UMPIRE framework (adapted):
 
-**Understand:** [Restate the problem]
+**Understand:** he nous-core framework is missing a Cloudflare Workers AI adapter. Users cannot use Cloudflare's AI models through Nous.
 
-**Match:** [What similar patterns/solutions exist in the codebase?]
+**Match:**  openai-provider.ts and anthropic-provider.ts in self/subcortex/providers/src/ implement the IModelProvider interface and serve as direct reference implementations.
 
 **Plan:** [Step-by-step implementation plan]
-1. [Modify file X to do Y]
-2. [Add function Z]
-3. [Update tests]
+1. Create self/subcortex/providers/src/cloudflare-workers-ai-provider.ts
+2. Implement IModelProvider interface (invoke, stream, getConfig)
+3. Validate input against TextModelInputSchema
+4. Handle streaming responses correctly
+5. Export from self/subcortex/providers/src/index.ts
+6. Write tests in self/subcortex/providers/src/__tests__/
 
 **Implement:** [Link to your branch/commits as you work]
 
 **Review:** [Self-review checklist - does it follow the project's contribution guidelines?]
 
-**Evaluate:** [How will you verify it works?]
+**Evaluate:** [How will you verify it works?]Tests will verify invoke and stream methods work correctly. Existing tests should continue to pass.
 
 ---
 
