@@ -137,14 +137,14 @@ Ran full test suite with vitest. Confirmed cloudflare-workers-ai provider is reg
 
 ## Pull Request
 
-**PR Link:** [To be submitted]
+**PR Link:** https://github.com/orthogonalhq/nous-core/pull/418
 
 **PR Description:** [To be completed in Phase IV]
 
 **Maintainer Feedback:**
 - [To be updated after PR submission]
 
-**Status:** Awaiting PR submission
+**Status:** Awaiting review
 
 ---
 
